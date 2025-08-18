@@ -1,29 +1,42 @@
 import SwiftUI
 
 struct ChatView: View {
+    @StateObject private var viewModel = ChatViewModel()
     @State private var query = ""
-    @State private var messages: [Message] = []
     
     var body: some View {
         NavigationStack {
             VStack {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 12) {
-                        ForEach(messages) { message in
-                            MessageBubble(message: message)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 12) {
+                            ForEach(viewModel.messages) { message in
+                                MessageBubble(message: message)
+                                    .id(message.id)
+                            }
+                            
+                            if viewModel.isLoading {
+                                HStack {
+                                    ProgressView()
+                                    Text("thinking...")
+                                        .foregroundColor(.secondary)
+                                }
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
                 
                 HStack {
                     TextField("ask anything...", text: $query)
                         .textFieldStyle(.roundedBorder)
+                        .onSubmit { sendMessage() }
                     
                     Button(action: sendMessage) {
                         Image(systemName: "arrow.up.circle.fill")
                             .font(.title2)
                     }
+                    .disabled(query.isEmpty || viewModel.isLoading)
                 }
                 .padding()
             }
@@ -33,8 +46,10 @@ struct ChatView: View {
     
     func sendMessage() {
         guard !query.isEmpty else { return }
-        let userMessage = Message(content: query, isUser: true)
-        messages.append(userMessage)
+        let q = query
         query = ""
+        Task {
+            await viewModel.send(q)
+        }
     }
 }

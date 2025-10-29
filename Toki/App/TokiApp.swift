@@ -8,3 +8,4 @@ struct TokiApp: App {
         }
     }
 }
+// app constants

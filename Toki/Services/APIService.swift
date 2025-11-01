@@ -22,3 +22,4 @@ class APIService {
 struct AskResponse: Codable {
     let answer: String
 }
+// real-time updates

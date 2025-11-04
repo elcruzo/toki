@@ -21,3 +21,4 @@ struct MenuItem: Identifiable, Codable {
     let name: String
     let station: String
 }
+// campus-specific logic

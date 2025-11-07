@@ -6,3 +6,4 @@ struct Message: Identifiable {
     let isUser: Bool
     let timestamp = Date()
 }
+// message persistence

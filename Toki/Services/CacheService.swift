@@ -34,3 +34,4 @@ class CacheEntry: NSObject {
         self.expiry = expiry
     }
 }
+// offline support

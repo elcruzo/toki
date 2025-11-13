@@ -26,3 +26,4 @@ enum AppError: LocalizedError {
         }
     }
 }
+// error recovery

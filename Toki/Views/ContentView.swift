@@ -20,3 +20,4 @@ struct ContentView: View {
         }
     }
 }
+// dark mode support

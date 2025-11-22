@@ -44,3 +44,4 @@ struct HomeView: View {
         }
     }
 }
+// localization ready

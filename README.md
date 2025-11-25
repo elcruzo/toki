@@ -22,41 +22,65 @@ one app where students ask anything about their campus and get instant answers.
 
 ## stack
 
-- ios: swift, swiftui
-- backend: fastapi, weaviate
-- inference: llama 3.1 (local) + gpt-4 fallback
+**ios app:**
+- swift 5.9+
+- swiftui
+- async/await
+- combine
 
-## status
-
-pilot at howard university. 3,200+ waitlist.
+**backend:**
+- fastapi
+- weaviate (vector db)
+- llama 3.1 (local inference)
+- gpt-4 (fallback)
 
 ## structure
 
 ```
 Toki/
 ├── App/
-│   └── TokiApp.swift
+│   ├── TokiApp.swift
+│   └── DeepLinkHandler.swift
 ├── Views/
 │   ├── ChatView.swift
 │   ├── ExploreView.swift
-│   ├── DiningView.swift
-│   ├── LibraryView.swift
-│   ├── ShuttleView.swift
-│   └── ...
+│   ├── AlertsView.swift
+│   ├── SettingsView.swift
+│   ├── SignInView.swift
+│   └── ContentView.swift
+├── ViewModels/
+│   └── ChatViewModel.swift
 ├── Models/
 │   ├── Message.swift
 │   ├── Campus.swift
-│   └── ...
+│   ├── Event.swift
+│   ├── Alert.swift
+│   ├── QuickAction.swift
+│   ├── SearchHistory.swift
+│   └── AppError.swift
 ├── Services/
 │   ├── APIService.swift
-│   ├── AuthService.swift
-│   └── ...
-└── ViewModels/
-    └── ChatViewModel.swift
+│   └── AuthService.swift
+└── Extensions/
+    ├── Date+Formatting.swift
+    ├── String+Extensions.swift
+    └── View+Keyboard.swift
 ```
 
-## roadmap
+## web
 
-- [ ] siri shortcuts
-- [ ] apple watch app
-- [ ] android version
+landing page in `/web`. deploy to vercel.
+
+```bash
+cd web
+pnpm install
+pnpm dev
+```
+
+## status
+
+pilot at howard university. 3,200+ waitlist.
+
+## license
+
+mit

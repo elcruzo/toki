@@ -1,11 +1,14 @@
 import Foundation
 
-enum DeepLink {
+// MARK: - Deep Link Handler
+
+enum DeepLink: Equatable {
     case chat(query: String?)
-    case dining
-    case library
-    case shuttle
-    case events
+    case explore
+    case alerts
+    case settings
+    
+    // MARK: - Initialization
     
     init?(url: URL) {
         guard url.scheme == "toki" else { return nil }
@@ -13,13 +16,33 @@ enum DeepLink {
         switch url.host {
         case "chat":
             let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?
-                .queryItems?.first(where: { $0.name == "q" })?.value
+                .queryItems?
+                .first(where: { $0.name == "q" })?
+                .value
             self = .chat(query: query)
-        case "dining": self = .dining
-        case "library": self = .library
-        case "shuttle": self = .shuttle
-        case "events": self = .events
-        default: return nil
+            
+        case "explore":
+            self = .explore
+            
+        case "alerts":
+            self = .alerts
+            
+        case "settings":
+            self = .settings
+            
+        default:
+            return nil
+        }
+    }
+    
+    // MARK: - Tab Index
+    
+    var tabIndex: Int {
+        switch self {
+        case .chat: return 0
+        case .explore: return 1
+        case .alerts: return 2
+        case .settings: return 3
         }
     }
 }

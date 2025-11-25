@@ -54,3 +54,9 @@ Toki/
 └── ViewModels/
     └── ChatViewModel.swift
 ```
+
+## roadmap
+
+- [ ] siri shortcuts
+- [ ] apple watch app
+- [ ] android version

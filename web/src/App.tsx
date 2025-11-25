@@ -18,11 +18,6 @@ interface Stat {
   label: string
 }
 
-interface ThinkingAboutItem {
-  title: string
-  description: string
-}
-
 const FORMSPREE_URL = "https://formspree.io/f/mdaddnwb"
 
 const DEMO_QUESTIONS = [
@@ -74,17 +69,6 @@ const STATS: Stat[] = [
   { value: "3,200+", label: "students on waitlist" },
   { value: "10,000", label: "students at pilot campus" },
   { value: "3+ hrs", label: "saved daily per student" },
-]
-
-const THINKING_ABOUT: ThinkingAboutItem[] = [
-  {
-    title: "embodied ai",
-    description: "attention modeling for manipulation tasks. spatial reasoning, occlusion handling, contact dynamics. closing the gap between perception and control in robotics."
-  },
-  {
-    title: "physical labor data",
-    description: "a creator economy for trades. electricians, plumbers, machinists producing valuable training data every day—what if they got paid for it? outcome as a service."
-  },
 ]
 
 function WaitlistForm({ variant = 'default' }: { variant?: 'default' | 'compact' | 'cta' }) {
@@ -189,9 +173,6 @@ function Navbar() {
           </a>
           <a href="#how" className="text-brown-700 hover:text-brown-900 transition-colors">
             how it works
-          </a>
-          <a href="#thinking" className="text-brown-700 hover:text-brown-900 transition-colors">
-            thinking about
           </a>
           <a 
             href="#waitlist"
@@ -316,35 +297,6 @@ function Stats() {
   )
 }
 
-function ThinkingAboutCard({ item }: { item: ThinkingAboutItem }) {
-  return (
-    <div className="p-8 bg-cream rounded-2xl border border-brown-200/50">
-      <h3 className="text-2xl font-semibold text-brown-900 mb-4">{item.title}</h3>
-      <p className="text-brown-600 leading-relaxed">{item.description}</p>
-    </div>
-  )
-}
-
-function ThinkingAbout() {
-  return (
-    <section id="thinking" className="py-24 px-6 bg-brown-100/50">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-semibold text-brown-900 text-center mb-6">
-          thinking about
-        </h2>
-        <p className="text-center text-brown-600 mb-16 max-w-2xl mx-auto">
-          beyond toki, here's what i'm exploring.
-        </p>
-        <div className="grid md:grid-cols-2 gap-6">
-          {THINKING_ABOUT.map((item) => (
-            <ThinkingAboutCard key={item.title} item={item} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function CallToAction() {
   return (
     <section id="waitlist" className="py-24 px-6">
@@ -375,12 +327,6 @@ function Footer() {
           >
             contact
           </a>
-          <a href="/privacy" className="hover:text-brown-900 transition-colors">
-            privacy
-          </a>
-          <a href="/terms" className="hover:text-brown-900 transition-colors">
-            terms
-          </a>
         </div>
         <div className="text-brown-500 text-sm">
           © {currentYear} toki
@@ -400,7 +346,6 @@ function App() {
         <Features />
         <HowItWorks />
         <Stats />
-        <ThinkingAbout />
         <CallToAction />
       </main>
       <Footer />

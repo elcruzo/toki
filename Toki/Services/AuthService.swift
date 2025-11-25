@@ -12,7 +12,7 @@ final class AuthService: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var error: AuthError?
     
-    private let baseURL = "https://api.toki.app/auth"
+    private let baseURL = "https://api.gettoki.app/auth"
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder

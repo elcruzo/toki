@@ -44,7 +44,7 @@ struct SettingsView: View {
         Section("About") {
             LabeledContent("Version", value: appVersion)
             
-            Link(destination: URL(string: "https://toki.app/privacy")!) {
+            Link(destination: URL(string: "https://gettoki.app/privacy")!) {
                 HStack {
                     Text("Privacy Policy")
                     Spacer()
@@ -54,7 +54,7 @@ struct SettingsView: View {
                 }
             }
             
-            Link(destination: URL(string: "https://toki.app/terms")!) {
+            Link(destination: URL(string: "https://gettoki.app/terms")!) {
                 HStack {
                     Text("Terms of Service")
                     Spacer()
@@ -64,7 +64,7 @@ struct SettingsView: View {
                 }
             }
             
-            Link(destination: URL(string: "mailto:support@toki.app")!) {
+            Link(destination: URL(string: "mailto:support@gettoki.app")!) {
                 HStack {
                     Text("Contact Support")
                     Spacer()

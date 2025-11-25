@@ -11,7 +11,7 @@ final class APIService {
     private let encoder: JSONEncoder
     
     private init() {
-        self.baseURL = "https://api.toki.app"
+        self.baseURL = "https://api.gettoki.app"
         
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30

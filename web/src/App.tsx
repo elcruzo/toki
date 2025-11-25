@@ -327,6 +327,12 @@ function Footer() {
           >
             contact
           </a>
+          <a href="/privacy" className="hover:text-brown-900 transition-colors">
+            privacy
+          </a>
+          <a href="/terms" className="hover:text-brown-900 transition-colors">
+            terms
+          </a>
         </div>
         <div className="text-brown-500 text-sm">
           © {currentYear} toki

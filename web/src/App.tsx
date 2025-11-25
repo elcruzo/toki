@@ -1,3 +1,4 @@
+import { useState, type FormEvent } from 'react'
 import './index.css'
 
 interface Feature {
@@ -22,7 +23,7 @@ interface ThinkingAboutItem {
   description: string
 }
 
-const WAITLIST_URL = "https://forms.gle/your-waitlist-form"
+const FORMSPREE_URL = "https://formspree.io/f/mdaddnwb"
 
 const DEMO_QUESTIONS = [
   "is the library busy right now?",
@@ -86,6 +87,97 @@ const THINKING_ABOUT: ThinkingAboutItem[] = [
   },
 ]
 
+function WaitlistForm({ variant = 'default' }: { variant?: 'default' | 'compact' | 'cta' }) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+
+    setStatus('loading')
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        setEmail('')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'success') {
+    return (
+      <div className={`text-center ${variant === 'cta' ? 'text-brown-900' : ''}`}>
+        <p className="text-lg font-medium">you're on the list!</p>
+        <p className={`text-sm ${variant === 'cta' ? 'text-brown-600' : 'text-brown-500'}`}>
+          we'll reach out when toki launches at your campus.
+        </p>
+      </div>
+    )
+  }
+
+  if (variant === 'compact') {
+    return (
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.edu"
+          required
+          className="px-4 py-2 rounded-full bg-cream border border-brown-200 text-brown-900 placeholder-brown-400 focus:outline-none focus:ring-2 focus:ring-brown-400"
+        />
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="px-5 py-2 bg-brown-900 text-cream rounded-full hover:bg-brown-800 transition-colors disabled:opacity-50"
+        >
+          {status === 'loading' ? '...' : 'join'}
+        </button>
+      </form>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="your@email.edu"
+        required
+        className={`w-full sm:w-auto px-6 py-4 rounded-full border text-lg focus:outline-none focus:ring-2 ${
+          variant === 'cta' 
+            ? 'bg-white border-brown-200 text-brown-900 placeholder-brown-400 focus:ring-brown-400'
+            : 'bg-cream border-brown-200 text-brown-900 placeholder-brown-400 focus:ring-brown-400'
+        }`}
+      />
+      <button
+        type="submit"
+        disabled={status === 'loading'}
+        className="w-full sm:w-auto px-8 py-4 bg-brown-900 text-cream text-lg rounded-full hover:bg-brown-800 transition-colors disabled:opacity-50"
+      >
+        {status === 'loading' ? 'joining...' : 'join the waitlist'}
+      </button>
+      {status === 'error' && (
+        <p className="text-red-500 text-sm">something went wrong. try again.</p>
+      )}
+    </form>
+  )
+}
+
 function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-cream/80 backdrop-blur-sm border-b border-brown-200/50">
@@ -102,9 +194,7 @@ function Navbar() {
             thinking about
           </a>
           <a 
-            href={WAITLIST_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#waitlist"
             className="px-5 py-2 bg-brown-900 text-cream rounded-full hover:bg-brown-800 transition-colors"
           >
             join waitlist
@@ -125,17 +215,8 @@ function Hero() {
         <p className="text-xl md:text-2xl text-brown-600 max-w-2xl mx-auto mb-10">
           one app where you ask anything about your campus and get instant, accurate answers.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a 
-            href={WAITLIST_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-4 bg-brown-900 text-cream text-lg rounded-full hover:bg-brown-800 transition-colors"
-          >
-            join the waitlist
-          </a>
-          <span className="text-brown-500">3,200+ students waiting</span>
-        </div>
+        <WaitlistForm />
+        <p className="mt-4 text-brown-500">3,200+ students waiting</p>
       </div>
     </section>
   )
@@ -266,7 +347,7 @@ function ThinkingAbout() {
 
 function CallToAction() {
   return (
-    <section className="py-24 px-6">
+    <section id="waitlist" className="py-24 px-6">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-semibold text-brown-900 mb-6">
           stop searching. start asking.
@@ -274,14 +355,7 @@ function CallToAction() {
         <p className="text-xl text-brown-600 mb-10">
           join thousands of students waiting for a better way to navigate campus life.
         </p>
-        <a 
-          href={WAITLIST_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-8 py-4 bg-brown-900 text-cream text-lg rounded-full hover:bg-brown-800 transition-colors"
-        >
-          join the waitlist
-        </a>
+        <WaitlistForm variant="cta" />
       </div>
     </section>
   )
